@@ -17,4 +17,21 @@ const getProductsQuery = gql`
   }
 `;
 
-export { getProductsQuery };
+const getUserFavoritesQuery = gql`
+  {
+    userFavorites{
+      _id
+      name
+      description
+      pictureUrl
+      category
+      price
+      quantity
+      shopId
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export { getProductsQuery, getUserFavoritesQuery };

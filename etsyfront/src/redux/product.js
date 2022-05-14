@@ -1,11 +1,25 @@
-import { publicRequest, userRequest, publicRequestClient } from '../api/http';
 import {
-  getProductsFailure, getProductsSuccess, createFavoriteProductSuccess,
-  getUserFavoritesSuccess, getUserFavoritesFailure,
-  createFavoriteProductFailure, deleteFavoriteProductSuccess, deleteFavoriteProductFailure,
-  getSearchProductByNameSuccess, getSearchProductByNameFailure,
+  publicRequest,
+  userRequest,
+  publicRequestClient,
+  userRequestClient,
+} from '../api/http';
+import {
+  getProductsFailure,
+  getProductsSuccess,
+  createFavoriteProductSuccess,
+  getUserFavoritesSuccess,
+  getUserFavoritesFailure,
+  createFavoriteProductFailure,
+  deleteFavoriteProductSuccess,
+  deleteFavoriteProductFailure,
+  getSearchProductByNameSuccess,
+  getSearchProductByNameFailure,
 } from './productRedux';
-import { getProductsQuery } from '../api/queries/queries';
+import {
+  getProductsQuery,
+  getUserFavoritesQuery,
+} from '../api/queries/queries';
 
 export const getProducts = async (dispatch, shop) => {
   try {
@@ -39,9 +53,8 @@ export const deleteFavoriteProduct = async (dispatch, product) => {
 
 export const getUserFavorites = async (dispatch) => {
   try {
-    const res = await userRequest.get('/user/favorites');
-    console.log(res);
-    dispatch(getUserFavoritesSuccess(res.data));
+    const res = await userRequestClient.request(getUserFavoritesQuery);
+    dispatch(getUserFavoritesSuccess(res));
   } catch (err) {
     console.log(err);
     dispatch(getUserFavoritesFailure());

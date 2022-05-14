@@ -45,7 +45,8 @@ export async function deleteFavoriteProduct(req, res) {
   return res.status(200).json(findFavorites);
 }
 
-export async function getUserFavorites(req, res) {
+export async function getUserFavorites(context) {
+  const { req } = context;
   const token = req.headers.authorization;
   const payload = await decodeToken(token);
   const userId = payload.data.id;
@@ -60,7 +61,7 @@ export async function getUserFavorites(req, res) {
     }),
   );
 
-  return res.status(200).json(response);
+  return response;
 }
 
 export async function searchProductsByName(req, res) {

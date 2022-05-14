@@ -36,7 +36,7 @@ const productsSlice = createSlice({
     },
     getUserFavoritesSuccess: (state, action) => {
       state.isFetching = false;
-      state.favoriteProducts = action.payload;
+      state.favoriteProducts = action.payload.userFavorites;
     },
     getUserFavoritesFailure: (state) => {
       state.isFetching = false;

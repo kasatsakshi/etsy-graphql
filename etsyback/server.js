@@ -7,7 +7,7 @@ import { ApolloServer } from 'apollo-server-express';
 import routes from './routes';
 import config from './config';
 import { typeDefs, resolvers } from './schema/schema';
-// import passport from './helpers/passport';
+import passport from './helpers/passport';
 
 const app = express();
 const corsOptions = { origin: '*', exposedHeaders: 'X-Auth-Token' };
@@ -20,6 +20,8 @@ app.use(express.static('public/uploads'));
 app.get('/', (req, res) => {
   res.json({ message: 'Etsy backend server is running' });
 });
+
+app.use('/', passport.authenticate('jwt', { session: false }));
 
 app.get('/public/uploads/*', (req, res) => {
   const filePath = req.path;
@@ -60,6 +62,9 @@ const port = 8080;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: (req) => {
+    return req;
+  },
 });
 
 await server.start();
@@ -68,6 +73,7 @@ await server.start();
 server.applyMiddleware({
   app,
   path: '/api',
+
 });
 
 const httpServer = createServer(app);

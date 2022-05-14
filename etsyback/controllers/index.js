@@ -16,7 +16,6 @@ import passport from '../helpers/passport';
 const router = new express.Router();
 
 router.post('/signup', signup);
-router.post('/login', login);
 router.get('/user', passport.authenticate('jwt', { session: false }), user);
 router.put('/user/update', passport.authenticate('jwt', { session: false }), update);
 router.put('/user/update/currency', passport.authenticate('jwt', { session: false }), updateCurrency);
@@ -27,11 +26,9 @@ router.post('/shop/create', passport.authenticate('jwt', { session: false }), cr
 router.post('/shop/product/create', passport.authenticate('jwt', { session: false }), createShopProduct);
 router.post('/shop/product/update', passport.authenticate('jwt', { session: false }), updateShopProduct);
 router.get('/shop/:shopId/categories', passport.authenticate('jwt', { session: false }), getShopCategories);
-router.get('/products', getProducts);
 
 router.post('/product/favorite', passport.authenticate('jwt', { session: false }), favoriteProduct);
 router.post('/product/favorite/delete', passport.authenticate('jwt', { session: false }), deleteFavoriteProduct);
-router.get('/user/favorites', passport.authenticate('jwt', { session: false }), getUserFavorites);
 
 router.get('/product/search/:name', searchProductsByName);
 

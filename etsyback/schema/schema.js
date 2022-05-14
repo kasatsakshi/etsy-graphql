@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server-express';
 
 import {
-  getProducts,
+  getProducts, getUserFavorites,
 } from '../controllers/products';
 
 import login from '../controllers/login';
@@ -46,6 +46,7 @@ export const typeDefs = gql`
   type Query {
     users: [User]
     products: [Product]
+    userFavorites: [Product]
   }
   type Mutation {
     login(input: LoginInput!): User
@@ -55,6 +56,7 @@ export const typeDefs = gql`
 export const resolvers = {
   Query: {
     products: async () => getProducts(),
+    userFavorites: async (parent, _, context) => getUserFavorites(context),
   },
   Mutation: {
     login: async (parent, input) => {
