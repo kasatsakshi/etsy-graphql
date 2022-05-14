@@ -52,17 +52,17 @@ function Home() {
         console.log(err);
       }
     };
-    // const fetchFavorites = async () => {
-    //   try {
-    //     await getUserFavorites(dispatch, user);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
+    const fetchFavorites = async () => {
+      try {
+        await getUserFavorites(dispatch, user);
+      } catch (err) {
+        console.log(err);
+      }
+    };
     fetchProducts();
-    // if (localStorage.getItem('token')) {
-    //   fetchFavorites();
-    // }
+    if (localStorage.getItem('token')) {
+      fetchFavorites();
+    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

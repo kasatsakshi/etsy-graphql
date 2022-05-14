@@ -4,15 +4,16 @@ import {
   accountInfoSuccess, accountInfoFailure, updateUserInfoSuccess,
   updateUserCurrencySuccess,
 } from './userRedux';
-import { publicRequest, userRequest } from '../api/http';
+import { loginMutation } from '../api/mutations/mutation';
+import { publicRequest, userRequest, publicRequestClient } from '../api/http';
 
 export const login = async (dispatch, user) => {
   dispatch(loginStart());
   try {
-    const res = await publicRequest.post('/login', user);
-    const token = res.headers['x-auth-token'];
+    const res = await publicRequestClient.request(loginMutation, { input: user });
+    const token = res.login.token;
     localStorage.setItem('token', token);
-    dispatch(loginSuccess(res.data));
+    dispatch(loginSuccess(res));
   } catch (err) {
     dispatch(loginFailure());
   }

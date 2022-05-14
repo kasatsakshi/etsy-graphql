@@ -4,21 +4,32 @@ import {
   getProducts,
 } from '../controllers/products';
 
+import login from '../controllers/login';
+
 // The GraphQL schema
 export const typeDefs = gql`
-  input UserInput {
+  input LoginInput {
     email: String
     password: String
-  }
-  type Order {
-    id: ID,
-    itemId: String
-    userId: String
-  }
+  } 
   type User {
-    id: ID
+    _id: ID
     name: String
     email: String
+    gender: String
+    phone: String
+    avatarUrl: String
+    birthday: String
+    bio: String
+    userStatus: String
+    lastLoginAt: String
+    lastLogoutAt: String
+    currency: String
+    userLevel: Int
+    address: String
+    createdAt: String
+    updatedAt: String
+    token: String
   }
   type Product {
     _id: ID
@@ -37,13 +48,17 @@ export const typeDefs = gql`
     products: [Product]
   }
   type Mutation {
-    addUser(user: UserInput): User 
-    addOrder(itemId: ID): Order
+    login(input: LoginInput!): User
   }
 `;
 
 export const resolvers = {
   Query: {
     products: async () => getProducts(),
+  },
+  Mutation: {
+    login: async (parent, input) => {
+      return login(input);
+    },
   },
 };
