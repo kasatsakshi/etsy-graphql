@@ -12,7 +12,7 @@ const productsSlice = createSlice({
   reducers: {
     getProductsSuccess: (state, action) => {
       state.isFetching = false;
-      state.currentProducts = action.payload;
+      state.currentProducts = action.payload.products;
     },
     getProductsFailure: (state) => {
       state.isFetching = false;

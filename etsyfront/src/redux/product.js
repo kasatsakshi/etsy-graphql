@@ -1,15 +1,16 @@
-import { publicRequest, userRequest } from '../api/http';
+import { publicRequest, userRequest, publicRequestClient } from '../api/http';
 import {
   getProductsFailure, getProductsSuccess, createFavoriteProductSuccess,
   getUserFavoritesSuccess, getUserFavoritesFailure,
   createFavoriteProductFailure, deleteFavoriteProductSuccess, deleteFavoriteProductFailure,
   getSearchProductByNameSuccess, getSearchProductByNameFailure,
 } from './productRedux';
+import { getProductsQuery } from '../api/queries/queries';
 
 export const getProducts = async (dispatch, shop) => {
   try {
-    const res = await publicRequest.get('/products');
-    await dispatch(getProductsSuccess(res.data));
+    const res = await publicRequestClient.request(getProductsQuery);
+    await dispatch(getProductsSuccess(res));
   } catch (err) {
     console.log(err);
     await dispatch(getProductsFailure());

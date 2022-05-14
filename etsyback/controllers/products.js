@@ -17,7 +17,7 @@ export async function getProducts(req, res) {
     }),
   );
 
-  return res.status(200).json(products);
+  return products;
 }
 
 export async function favoriteProduct(req, res) {
