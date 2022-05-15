@@ -6,9 +6,13 @@ import { createServer } from 'http';
 import { ApolloServer } from 'apollo-server-express';
 import routes from './routes';
 import config from './config';
-import { typeDefs, resolvers } from './schema/schema';
+import {
+  typeDefs,
+  publicTypeDefs,
+  resolvers,
+  publicResolvers,
+} from './schema/schema';
 import passport from './helpers/passport';
-import { getProducts } from './controllers/products';
 
 const app = express();
 const corsOptions = { origin: '*', exposedHeaders: 'X-Auth-Token' };
@@ -77,8 +81,8 @@ server.applyMiddleware({
 });
 
 const graphServer = new ApolloServer({
-  typeDefs,
-  resolvers,
+  typeDefs: publicTypeDefs,
+  resolvers: publicResolvers,
   context: (req) => {
     return req;
   },
@@ -95,6 +99,6 @@ graphServer.applyMiddleware({
 const httpServer = createServer(app);
 
 httpServer.listen({ port }, () => {
-  console.log(`🚀 Server ready at http:localhost:${port}/api`);
-  console.log(`🚀 Public Server ready at http:localhost:${port}/graph`);
+  console.log(`🚀 Server ready at http://localhost:${port}/api`);
+  console.log(`🚀 Public Server ready at http://localhost:${port}/graph`);
 });

@@ -39,7 +39,8 @@ async function validateInput(input) {
   return null;
 }
 
-export async function user(req, res) {
+export async function user(context) {
+  const { req } = context;
   const token = req.headers.authorization;
   const payload = await decodeToken(token);
   const input = payload.data;
@@ -47,7 +48,7 @@ export async function user(req, res) {
   const inputError = await validateInput(trimmedInput);
 
   if (inputError) {
-    return res.status(400).json({ message: inputError });
+    throw new Error(inputError);
   }
 
   const findUser = await findOneEntity(User, { email: trimmedInput.email });
@@ -55,12 +56,11 @@ export async function user(req, res) {
   if (!findUser) {
     console.error('Email does not exists!');
     // Adding the below message so someone cannot create fake accounts
-    return res.status(400).json({ message: 'User does not exists' });
+    throw new Error('User does not exists');
   }
 
   const response = ({ ...findUser }._doc);
-  delete response.password;
-  return res.status(200).json(response);
+  return response;
 }
 
 export async function updateCurrency(req, res) {

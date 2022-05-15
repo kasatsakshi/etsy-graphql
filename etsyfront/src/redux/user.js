@@ -5,7 +5,10 @@ import {
   updateUserCurrencySuccess,
 } from './userRedux';
 import { loginMutation } from '../api/mutations/mutation';
-import { publicRequest, userRequest, publicRequestClient } from '../api/http';
+import {
+  publicRequest, userRequest, publicRequestClient, userRequestClient,
+} from '../api/http';
+import { userQuery } from '../api/queries/queries';
 
 export const login = async (dispatch, user) => {
   dispatch(loginStart());
@@ -34,8 +37,8 @@ export const signup = async (dispatch, user) => {
 export const accountInfo = async (dispatch, user) => {
   dispatch(accountInfoStart());
   try {
-    const res = await userRequest.get('/user');
-    dispatch(accountInfoSuccess(res.data));
+    const res = await userRequestClient.request(userQuery);
+    dispatch(accountInfoSuccess(res));
   } catch (err) {
     console.log(err);
     dispatch(accountInfoFailure());

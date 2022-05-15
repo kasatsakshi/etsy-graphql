@@ -1,22 +1,20 @@
 import express from 'express';
-import login from './login';
 import signup from './signup';
 import upload from './upload';
-import { user, update, updateCurrency } from './user';
+import { update, updateCurrency } from './user';
 import {
   createShopProduct, createShop, getShop, isShopNameAvailable, getShopCategories, updateShopProduct,
 } from './shop';
 import {
-  deleteFavoriteProduct, favoriteProduct, getProducts, getUserFavorites, searchProductsByName,
+  deleteFavoriteProduct, favoriteProduct, searchProductsByName,
 } from './products';
-import { createOrder, getOrders } from './order';
+import { createOrder } from './order';
 
 import passport from '../helpers/passport';
 
 const router = new express.Router();
 
 router.post('/signup', signup);
-router.get('/user', passport.authenticate('jwt', { session: false }), user);
 router.put('/user/update', passport.authenticate('jwt', { session: false }), update);
 router.put('/user/update/currency', passport.authenticate('jwt', { session: false }), updateCurrency);
 router.post('/upload', passport.authenticate('jwt', { session: false }), upload);

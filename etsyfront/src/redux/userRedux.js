@@ -35,7 +35,7 @@ const userSlice = createSlice({
     },
     accountInfoSuccess: (state, action) => {
       state.isFetching = false;
-      state.currentUser = action.payload;
+      state.currentUser = action.payload.user;
     },
     accountInfoFailure: (state) => {
       state.isFetching = false;

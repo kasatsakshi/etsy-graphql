@@ -65,4 +65,29 @@ const ordersQuery = gql`
   }
 `;
 
-export { getProductsQuery, getUserFavoritesQuery, ordersQuery };
+const userQuery = gql`
+{
+  user {
+    _id
+    name
+    email
+    gender
+    phone
+    avatarUrl
+    birthday
+    bio
+    userStatus
+    lastLoginAt
+    lastLogoutAt
+    currency
+    userLevel
+    address
+    createdAt
+    updatedAt
+  }
+}
+`;
+
+export {
+  getProductsQuery, getUserFavoritesQuery, ordersQuery, userQuery,
+};
