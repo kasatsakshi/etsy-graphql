@@ -8,7 +8,7 @@ import {
 
 import login from '../controllers/login';
 import signup from '../controllers/signup';
-import { getOrders } from '../controllers/order';
+import { createOrder, getOrders } from '../controllers/order';
 import { user, updateCurrency } from '../controllers/user';
 import { getShop, getShopCategories, isShopNameAvailable } from '../controllers/shop';
 
@@ -82,6 +82,22 @@ export const typeDefs = gql`
   }
   input ShopCategoriesInput {
     shopId: String!
+  }
+  input OrderItemsInput {
+    quantityNeeded: Int!
+    quantity: Int!
+    price: String!
+    pictureUrl: String
+    name: String
+    description: String
+    category: String
+    shopId: String
+    _id: String
+    createdAt: String
+    updatedAt: String
+  }
+  input CreateOrderInput {
+    orderItems: [OrderItemsInput]
   }
   type FavoriteProduct {
     _id: ID
@@ -191,6 +207,7 @@ export const typeDefs = gql`
     deleteFavoriteProduct(input: DeleteFavoriteProductInput!): [FavoriteProduct]
     updateUserCurrency(input: UpdateCurrencyInput!): User
     isShopNameAvailable(input: ShopAvailabilityInput!): ShopAvailability
+    createOrder(input: CreateOrderInput!): [OrderInfo]
   }
 `;
 
@@ -231,6 +248,9 @@ export const resolvers = {
     },
     isShopNameAvailable: async (parent, input, context) => {
       return isShopNameAvailable(context, input);
+    },
+    createOrder: async (parent, input, context) => {
+      return createOrder(context, input);
     },
   },
 };

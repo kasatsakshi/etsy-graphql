@@ -3,6 +3,7 @@ import {
 } from './cartRedux';
 import { userRequestClient, userRequest } from '../api/http';
 import { ordersQuery } from '../api/queries/queries';
+import { createOrderMutation } from '../api/mutations/mutation';
 
 export const addToCart = async (dispatch, order) => {
   try {
@@ -15,8 +16,8 @@ export const addToCart = async (dispatch, order) => {
 
 export const createOrder = async (dispatch, order) => {
   try {
-    const res = await userRequest.post('/order', order);
-    await dispatch(createOrderSuccess(res.data));
+    const res = await userRequestClient.request(createOrderMutation, { input: order });
+    await dispatch(createOrderSuccess(res));
   } catch (err) {
     console.log(err);
     dispatch(createOrderFailure());

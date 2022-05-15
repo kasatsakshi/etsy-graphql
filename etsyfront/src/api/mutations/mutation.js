@@ -102,7 +102,39 @@ mutation Mutation($input: ShopAvailabilityInput!) {
 }
 `;
 
+const createOrderMutation = gql`
+mutation Mutation($input: CreateOrderInput!) {
+  createOrder(input: $input) {
+    order {
+      _id
+      finalAmount
+      status
+      orderId
+      orderedDate
+      userId
+      createdAt
+      updatedAt
+    }
+    orderDetails {
+      _id
+      orderQuantity
+      orderId
+      name
+      description
+      pictureUrl
+      category
+      price
+      shopId
+      inventoryId
+      createdAt
+      updatedAt
+    }
+  }
+}
+`;
+
 export {
   loginMutation, signupMutation, createFavoriteProductMutation,
   deleteFavoriteProductMutation, updateCurrencyMutation, isShopNameAvailableMutation,
+  createOrderMutation,
 };
