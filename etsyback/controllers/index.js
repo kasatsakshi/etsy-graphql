@@ -2,7 +2,7 @@ import express from 'express';
 import upload from './upload';
 import { update } from './user';
 import {
-  createShopProduct, createShop, getShopCategories, updateShopProduct,
+  createShopProduct, createShop, updateShopProduct,
 } from './shop';
 import { createOrder } from './order';
 
@@ -15,7 +15,6 @@ router.post('/upload', passport.authenticate('jwt', { session: false }), upload)
 router.post('/shop/create', passport.authenticate('jwt', { session: false }), createShop);
 router.post('/shop/product/create', passport.authenticate('jwt', { session: false }), createShopProduct);
 router.post('/shop/product/update', passport.authenticate('jwt', { session: false }), updateShopProduct);
-router.get('/shop/:shopId/categories', passport.authenticate('jwt', { session: false }), getShopCategories);
 
 router.post('/order', passport.authenticate('jwt', { session: false }), createOrder);
 

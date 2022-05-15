@@ -153,7 +153,20 @@ query Query {
   }
 `;
 
+const getShopCateogoriesQuery = gql`
+query Query($input: ShopCategoriesInput!) {
+    getShopCategories(input: $input){
+      default
+      custom {
+        _id
+        name
+        shopId
+      }
+    }
+  }
+`;
+
 export {
   getProductsQuery, getUserFavoritesQuery, searchProductsByNameQuery, ordersQuery, userQuery,
-  getShopQuery,
+  getShopQuery, getShopCateogoriesQuery,
 };

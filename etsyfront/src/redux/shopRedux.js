@@ -30,7 +30,7 @@ const shopSlice = createSlice({
     },
     getShopCategorySuccess: (state, action) => {
       state.isFetching = false;
-      state.currentCategories = action.payload;
+      state.currentCategories = action.payload.getShopCategories;
     },
     getShopCategoryFailure: (state) => {
       state.isFetching = false;

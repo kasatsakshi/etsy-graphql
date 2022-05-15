@@ -138,17 +138,17 @@ export async function isShopNameAvailable(_, args) {
   return { available: true };
 }
 
-export async function getShopCategories(req, res) {
-  const { shopId } = req.params;
+export async function getShopCategories(_, args) {
+  const { shopId } = args.input;
 
   if (!shopId) {
-    return res.status(400).json({ message: 'shop id is missing' });
+    throw new Error('shop id is missing');
   }
 
   const shop = await findOneEntity(Shop, { _id: shopId });
   if (!shop) {
     console.error('Shop does not exists!');
-    return res.status(400).json({ message: 'Shop does not exists' });
+    throw new Error('Shop does not exists');
   }
 
   const defaultCategories = ['Art', 'Clothing', 'Jewellery', 'Entertainment', 'Home Decor'];
@@ -157,7 +157,7 @@ export async function getShopCategories(req, res) {
     default: defaultCategories,
     custom: customCategories,
   };
-  return res.status(200).json(response);
+  return response;
 }
 
 export async function createShopProduct(req, res) {

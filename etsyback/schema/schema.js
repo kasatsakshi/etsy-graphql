@@ -10,7 +10,7 @@ import login from '../controllers/login';
 import signup from '../controllers/signup';
 import { getOrders } from '../controllers/order';
 import { user, updateCurrency } from '../controllers/user';
-import { getShop, isShopNameAvailable } from '../controllers/shop';
+import { getShop, getShopCategories, isShopNameAvailable } from '../controllers/shop';
 
 // The GraphQL schema
 export const publicTypeDefs = gql`
@@ -79,6 +79,9 @@ export const typeDefs = gql`
   }
   input ShopAvailabilityInput {
     name: String!
+  }
+  input ShopCategoriesInput {
+    shopId: String!
   }
   type FavoriteProduct {
     _id: ID
@@ -165,11 +168,23 @@ export const typeDefs = gql`
     inventory: [Product]
     totalSales: Int
   }
+  type CustomCategory {
+    _id: ID
+    name: String
+    shopId: String
+    createdAt: String
+    updatedAt: String
+  }
+  type ShopCategory {
+    default: [String]
+    custom: [CustomCategory]
+  }
   type Query {
     user: User
     orders: [OrderInfo]
     userFavorites: [Product]
     getShop: ShopInfo
+    getShopCategories(input: ShopCategoriesInput!): ShopCategory
   }
   type Mutation {
     createFavoriteProduct(input: CreateFavoriteProductInput!): [FavoriteProduct]
@@ -202,6 +217,7 @@ export const resolvers = {
     orders: async (parent, _, context) => getOrders(context),
     user: async (parent, _, context) => user(context),
     getShop: async (parent, _, context) => getShop(context),
+    getShopCategories: async (parent, input, context) => getShopCategories(context, input),
   },
   Mutation: {
     createFavoriteProduct: async (parent, input, context) => {

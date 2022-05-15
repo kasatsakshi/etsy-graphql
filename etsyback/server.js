@@ -4,7 +4,6 @@ import path from 'path';
 import mongoose from 'mongoose';
 import { createServer } from 'http';
 import { ApolloServer } from 'apollo-server-express';
-import routes from './routes';
 import config from './config';
 import {
   typeDefs,

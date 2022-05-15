@@ -5,7 +5,7 @@ import {
 } from './shopRedux';
 import { userRequest, userRequestClient } from '../api/http';
 import { isShopNameAvailableMutation } from '../api/mutations/mutation';
-import { getShopQuery } from '../api/queries/queries';
+import { getShopQuery, getShopCateogoriesQuery } from '../api/queries/queries';
 
 export const getShop = async (dispatch) => {
   dispatch(getShopStart());
@@ -20,8 +20,8 @@ export const getShop = async (dispatch) => {
 
 export const getShopCategories = async (dispatch, shop) => {
   try {
-    const res = await userRequest.get(`/shop/${shop.id}/categories`);
-    dispatch(getShopCategorySuccess(res.data));
+    const res = await userRequestClient.request(getShopCateogoriesQuery, { input: { shopId: shop.id } });
+    dispatch(getShopCategorySuccess(res));
   } catch (err) {
     console.log(err);
     dispatch(getShopCategoryFailure());
