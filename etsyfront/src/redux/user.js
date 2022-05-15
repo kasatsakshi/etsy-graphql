@@ -4,7 +4,7 @@ import {
   accountInfoSuccess, accountInfoFailure, updateUserInfoSuccess,
   updateUserCurrencySuccess,
 } from './userRedux';
-import { loginMutation } from '../api/mutations/mutation';
+import { loginMutation, updateCurrencyMutation } from '../api/mutations/mutation';
 import {
   publicRequest, userRequest, publicRequestClient, userRequestClient,
 } from '../api/http';
@@ -69,8 +69,8 @@ export const updateUserInfo = async (dispatch, data) => {
 
 export const updateCurrency = async (dispatch, data) => {
   try {
-    const res = await userRequest.put('/user/update/currency', data);
-    dispatch(updateUserCurrencySuccess(res.data));
+    const res = await userRequestClient.request(updateCurrencyMutation, { input: data });
+    dispatch(updateUserCurrencySuccess(res));
   } catch (err) {
     console.log(err);
   }

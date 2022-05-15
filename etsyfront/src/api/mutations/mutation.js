@@ -48,4 +48,30 @@ mutation Mutation($input: DeleteFavoriteProductInput!) {
 }
 `;
 
-export { loginMutation, createFavoriteProductMutation, deleteFavoriteProductMutation };
+const updateCurrencyMutation = gql`
+mutation Mutation($input: UpdateCurrencyInput!) {
+  updateUserCurrency(input: $input) {
+    _id
+    name
+    email
+    gender
+    phone
+    avatarUrl
+    birthday
+    bio
+    userStatus
+    lastLoginAt
+    lastLogoutAt
+    currency
+    userLevel
+    address
+    createdAt
+    updatedAt
+  }
+}
+`;
+
+export {
+  loginMutation, createFavoriteProductMutation,
+  deleteFavoriteProductMutation, updateCurrencyMutation,
+};

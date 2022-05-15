@@ -8,7 +8,7 @@ import {
 
 import login from '../controllers/login';
 import { getOrders } from '../controllers/order';
-import { user } from '../controllers/user';
+import { user, updateCurrency } from '../controllers/user';
 
 // The GraphQL schema
 export const publicTypeDefs = gql`
@@ -65,6 +65,9 @@ export const typeDefs = gql`
   }
   input DeleteFavoriteProductInput {
     inventoryId: String!
+  }
+  input UpdateCurrencyInput {
+    currency: String!
   }
   type FavoriteProduct {
     _id: ID
@@ -140,6 +143,7 @@ export const typeDefs = gql`
   type Mutation {
     createFavoriteProduct(input: CreateFavoriteProductInput!): [FavoriteProduct]
     deleteFavoriteProduct(input: DeleteFavoriteProductInput!): [FavoriteProduct]
+    updateUserCurrency(input: UpdateCurrencyInput!): User
   }
 `;
 
@@ -169,6 +173,9 @@ export const resolvers = {
     },
     deleteFavoriteProduct: async (parent, input, context) => {
       return deleteFavoriteProduct(context, input);
+    },
+    updateUserCurrency: async (parent, input, context) => {
+      return updateCurrency(context, input);
     },
   },
 };

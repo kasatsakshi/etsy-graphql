@@ -1,7 +1,7 @@
 import express from 'express';
 import signup from './signup';
 import upload from './upload';
-import { update, updateCurrency } from './user';
+import { update } from './user';
 import {
   createShopProduct, createShop, getShop, isShopNameAvailable, getShopCategories, updateShopProduct,
 } from './shop';
@@ -13,7 +13,6 @@ const router = new express.Router();
 
 router.post('/signup', signup);
 router.put('/user/update', passport.authenticate('jwt', { session: false }), update);
-router.put('/user/update/currency', passport.authenticate('jwt', { session: false }), updateCurrency);
 router.post('/upload', passport.authenticate('jwt', { session: false }), upload);
 router.get('/shop', passport.authenticate('jwt', { session: false }), getShop);
 router.post('/shop/name', passport.authenticate('jwt', { session: false }), isShopNameAvailable);

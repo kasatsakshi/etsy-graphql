@@ -63,27 +63,26 @@ export async function user(context) {
   return response;
 }
 
-export async function updateCurrency(req, res) {
-  const input = req.body;
+export async function updateCurrency(context, args) {
+  const { req } = context;
   const token = req.headers.authorization;
   const payload = await decodeToken(token);
   const { id, email } = payload.data;
-  const { currency } = input;
+  const { currency } = args.input;
 
   const findUser = await findOneEntity(User, { email });
   // Check if this user exists
   if (!findUser) {
     console.error('User does not exists!');
-    return res.status(400).json({ message: 'User does not exists' });
+    throw new Error('User does not exists');
   }
 
   await updateOneEntity(User, { _id: id }, { currency });
 
   const findUpdatedUser = await findOneEntity(User, { _id: id });
   const response = ({ ...findUpdatedUser }._doc);
-  delete response.password;
 
-  return res.status(200).json(response);
+  return response;
 }
 
 export async function update(req, res) {

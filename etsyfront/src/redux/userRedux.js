@@ -47,7 +47,7 @@ const userSlice = createSlice({
     },
     updateUserCurrencySuccess: (state, action) => {
       state.isFetching = false;
-      state.currentUser = action.payload;
+      state.currentUser = action.payload.updateUserCurrency;
     },
     logoutUser(state, action) {
       // Note that this should be left intentionally empty.
