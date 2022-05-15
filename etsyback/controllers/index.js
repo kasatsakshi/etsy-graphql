@@ -5,9 +5,6 @@ import { update, updateCurrency } from './user';
 import {
   createShopProduct, createShop, getShop, isShopNameAvailable, getShopCategories, updateShopProduct,
 } from './shop';
-import {
-  searchProductsByName,
-} from './products';
 import { createOrder } from './order';
 
 import passport from '../helpers/passport';
@@ -24,8 +21,6 @@ router.post('/shop/create', passport.authenticate('jwt', { session: false }), cr
 router.post('/shop/product/create', passport.authenticate('jwt', { session: false }), createShopProduct);
 router.post('/shop/product/update', passport.authenticate('jwt', { session: false }), updateShopProduct);
 router.get('/shop/:shopId/categories', passport.authenticate('jwt', { session: false }), getShopCategories);
-
-router.get('/product/search/:name', searchProductsByName);
 
 router.post('/order', passport.authenticate('jwt', { session: false }), createOrder);
 

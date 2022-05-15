@@ -88,6 +88,23 @@ const userQuery = gql`
 }
 `;
 
+const searchProductsByNameQuery = gql`
+query Query($input: ProductNameInput!) {
+    searchProductsByName(input: $input){
+      _id
+      name
+      description
+      pictureUrl
+      category
+      price
+      quantity
+      shopId
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 export {
-  getProductsQuery, getUserFavoritesQuery, ordersQuery, userQuery,
+  getProductsQuery, getUserFavoritesQuery, searchProductsByNameQuery, ordersQuery, userQuery,
 };

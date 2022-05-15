@@ -1,6 +1,4 @@
 import {
-  publicRequest,
-  userRequest,
   publicRequestClient,
   userRequestClient,
 } from '../api/http';
@@ -19,6 +17,7 @@ import {
 import {
   getProductsQuery,
   getUserFavoritesQuery,
+  searchProductsByNameQuery,
 } from '../api/queries/queries';
 import { createFavoriteProductMutation, deleteFavoriteProductMutation } from '../api/mutations/mutation';
 
@@ -64,8 +63,8 @@ export const getUserFavorites = async (dispatch) => {
 
 export const searchProductsByName = async (dispatch, data) => {
   try {
-    const res = await publicRequest.get(`/product/search/${data.searchParam}`);
-    dispatch(getSearchProductByNameSuccess(res.data));
+    const res = await publicRequestClient.request(searchProductsByNameQuery, { input: { name: data.searchParam } });
+    dispatch(getSearchProductByNameSuccess(res));
   } catch (err) {
     console.log(err);
     dispatch(getSearchProductByNameFailure());

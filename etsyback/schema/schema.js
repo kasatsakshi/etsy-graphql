@@ -3,7 +3,7 @@ import { gql } from 'apollo-server-express';
 import {
   deleteFavoriteProduct,
   favoriteProduct,
-  getProducts, getUserFavorites,
+  getProducts, getUserFavorites, searchProductsByName,
 } from '../controllers/products';
 
 import login from '../controllers/login';
@@ -13,8 +13,11 @@ import { user } from '../controllers/user';
 // The GraphQL schema
 export const publicTypeDefs = gql`
   input LoginInput {
-    email: String
-    password: String
+    email: String!
+    password: String!
+  }
+  input ProductNameInput {
+    name: String!
   }
   type User {
     _id: ID
@@ -49,6 +52,7 @@ export const publicTypeDefs = gql`
   }
   type Query {
     products: [Product]
+    searchProductsByName(input: ProductNameInput!): [Product]
   }
   type Mutation {
     login(input: LoginInput!): User
@@ -142,6 +146,9 @@ export const typeDefs = gql`
 export const publicResolvers = {
   Query: {
     products: async () => getProducts(),
+    searchProductsByName: async (parent, input, context) => {
+      return searchProductsByName(context, input);
+    },
   },
   Mutation: {
     login: async (parent, input) => {

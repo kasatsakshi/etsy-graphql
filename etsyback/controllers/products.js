@@ -65,12 +65,13 @@ export async function getUserFavorites(context) {
   return response;
 }
 
-export async function searchProductsByName(req, res) {
+export async function searchProductsByName(_, args) {
+  const searchParam = args.input.name;
   let products = [];
-  if (req.params.name) {
-    products = await findEntity(Inventory, { name: new RegExp(req.params.name, 'i') });
+  if (searchParam) {
+    products = await findEntity(Inventory, { name: new RegExp(searchParam, 'i') });
   } else {
     products = await findEntity(Inventory, {});
   }
-  return res.status(200).json(products);
+  return products;
 }

@@ -44,7 +44,7 @@ const productsSlice = createSlice({
     },
     getSearchProductByNameSuccess: (state, action) => {
       state.isFetching = false;
-      state.searchedProducts = action.payload;
+      state.searchedProducts = action.payload.searchProductsByName;
     },
     getSearchProductByNameFailure: (state) => {
       state.isFetching = false;
