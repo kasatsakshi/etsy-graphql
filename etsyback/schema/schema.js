@@ -1,6 +1,8 @@
 import { gql } from 'apollo-server-express';
 
 import {
+  deleteFavoriteProduct,
+  favoriteProduct,
   getProducts, getUserFavorites,
 } from '../controllers/products';
 
@@ -54,6 +56,19 @@ export const publicTypeDefs = gql`
 `;
 
 export const typeDefs = gql`
+  input CreateFavoriteProductInput {
+    inventoryId: String!
+  }
+  input DeleteFavoriteProductInput {
+    inventoryId: String!
+  }
+  type FavoriteProduct {
+    _id: ID
+    userId: String
+    inventoryId: String
+    createdAt: String
+    updatedAt: String
+  }
   type User {
     _id: ID
     name: String
@@ -118,6 +133,10 @@ export const typeDefs = gql`
     orders: [OrderInfo]
     userFavorites: [Product]
   }
+  type Mutation {
+    createFavoriteProduct(input: CreateFavoriteProductInput!): [FavoriteProduct]
+    deleteFavoriteProduct(input: DeleteFavoriteProductInput!): [FavoriteProduct]
+  }
 `;
 
 export const publicResolvers = {
@@ -136,5 +155,13 @@ export const resolvers = {
     userFavorites: async (parent, _, context) => getUserFavorites(context),
     orders: async (parent, _, context) => getOrders(context),
     user: async (parent, _, context) => user(context),
+  },
+  Mutation: {
+    createFavoriteProduct: async (parent, input, context) => {
+      return favoriteProduct(context, input);
+    },
+    deleteFavoriteProduct: async (parent, input, context) => {
+      return deleteFavoriteProduct(context, input);
+    },
   },
 };

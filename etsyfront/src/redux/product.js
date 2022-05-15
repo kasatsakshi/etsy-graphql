@@ -20,11 +20,11 @@ import {
   getProductsQuery,
   getUserFavoritesQuery,
 } from '../api/queries/queries';
+import { createFavoriteProductMutation, deleteFavoriteProductMutation } from '../api/mutations/mutation';
 
 export const getProducts = async (dispatch, shop) => {
   try {
     const res = await publicRequestClient.request(getProductsQuery);
-    // const res = await publicRequest.get('/products');
     await dispatch(getProductsSuccess(res));
   } catch (err) {
     console.log(err);
@@ -34,8 +34,8 @@ export const getProducts = async (dispatch, shop) => {
 
 export const createFavoriteProduct = async (dispatch, product) => {
   try {
-    const res = await userRequest.post('/product/favorite', product);
-    await dispatch(createFavoriteProductSuccess(res.data));
+    const res = await userRequestClient.request(createFavoriteProductMutation, { input: product });
+    await dispatch(createFavoriteProductSuccess(res));
   } catch (err) {
     console.log(err);
     await dispatch(createFavoriteProductFailure());
@@ -44,8 +44,8 @@ export const createFavoriteProduct = async (dispatch, product) => {
 
 export const deleteFavoriteProduct = async (dispatch, product) => {
   try {
-    const res = await userRequest.post('/product/favorite/delete', product);
-    dispatch(deleteFavoriteProductSuccess(res.data));
+    const res = await userRequestClient.request(deleteFavoriteProductMutation, { input: product });
+    dispatch(deleteFavoriteProductSuccess(res));
   } catch (err) {
     console.log(err);
     dispatch(deleteFavoriteProductFailure());

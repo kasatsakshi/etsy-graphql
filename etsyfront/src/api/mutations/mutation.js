@@ -24,4 +24,28 @@ mutation Mutation($input: LoginInput!) {
 }
 `;
 
-export { loginMutation };
+const createFavoriteProductMutation = gql`
+mutation Mutation($input: CreateFavoriteProductInput!) {
+  createFavoriteProduct(input: $input) {
+    _id
+    userId
+    inventoryId
+    createdAt
+    updatedAt
+  }
+}
+`;
+
+const deleteFavoriteProductMutation = gql`
+mutation Mutation($input: DeleteFavoriteProductInput!) {
+  deleteFavoriteProduct(input: $input) {
+    _id
+    userId
+    inventoryId
+    createdAt
+    updatedAt
+  }
+}
+`;
+
+export { loginMutation, createFavoriteProductMutation, deleteFavoriteProductMutation };

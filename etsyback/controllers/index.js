@@ -6,7 +6,7 @@ import {
   createShopProduct, createShop, getShop, isShopNameAvailable, getShopCategories, updateShopProduct,
 } from './shop';
 import {
-  deleteFavoriteProduct, favoriteProduct, searchProductsByName,
+  searchProductsByName,
 } from './products';
 import { createOrder } from './order';
 
@@ -24,9 +24,6 @@ router.post('/shop/create', passport.authenticate('jwt', { session: false }), cr
 router.post('/shop/product/create', passport.authenticate('jwt', { session: false }), createShopProduct);
 router.post('/shop/product/update', passport.authenticate('jwt', { session: false }), updateShopProduct);
 router.get('/shop/:shopId/categories', passport.authenticate('jwt', { session: false }), getShopCategories);
-
-router.post('/product/favorite', passport.authenticate('jwt', { session: false }), favoriteProduct);
-router.post('/product/favorite/delete', passport.authenticate('jwt', { session: false }), deleteFavoriteProduct);
 
 router.get('/product/search/:name', searchProductsByName);
 

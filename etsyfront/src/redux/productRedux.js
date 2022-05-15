@@ -20,7 +20,7 @@ const productsSlice = createSlice({
     },
     createFavoriteProductSuccess: (state, action) => {
       state.isFetching = false;
-      state.favoriteProducts = action.payload;
+      state.favoriteProducts = action.payload.createFavoriteProduct;
     },
     createFavoriteProductFailure: (state) => {
       state.isFetching = false;
@@ -28,7 +28,7 @@ const productsSlice = createSlice({
     },
     deleteFavoriteProductSuccess: (state, action) => {
       state.isFetching = false;
-      state.favoriteProducts = action.payload;
+      state.favoriteProducts = action.payload.deleteFavoriteProduct;
     },
     deleteFavoriteProductFailure: (state) => {
       state.isFetching = false;
