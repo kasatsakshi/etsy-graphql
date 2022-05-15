@@ -94,8 +94,15 @@ mutation Mutation($input: UpdateCurrencyInput!) {
   }
 }
 `;
+const isShopNameAvailableMutation = gql`
+mutation Mutation($input: ShopAvailabilityInput!) {
+  isShopNameAvailable(input: $input) {
+    available
+  }
+}
+`;
 
 export {
   loginMutation, signupMutation, createFavoriteProductMutation,
-  deleteFavoriteProductMutation, updateCurrencyMutation,
+  deleteFavoriteProductMutation, updateCurrencyMutation, isShopNameAvailableMutation,
 };

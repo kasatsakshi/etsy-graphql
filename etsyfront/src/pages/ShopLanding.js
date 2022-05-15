@@ -59,7 +59,7 @@ function ShopLanding() {
   const checkShop = async (e) => {
     e.preventDefault();
     const availableShop = await isShopNameAvailable({ shopName });
-    if (availableShop.message) {
+    if (availableShop.available) {
       setAvailablility('Available');
     } else {
       setAvailablility('Unavailable');

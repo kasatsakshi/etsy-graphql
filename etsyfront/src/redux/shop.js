@@ -3,13 +3,15 @@ import {
   shopCreateFailure, getShopCategorySuccess, shopProductUpdateSuccess,
   getShopCategoryFailure, shopProductCreateSuccess,
 } from './shopRedux';
-import { userRequest } from '../api/http';
+import { userRequest, userRequestClient } from '../api/http';
+import { isShopNameAvailableMutation } from '../api/mutations/mutation';
+import { getShopQuery } from '../api/queries/queries';
 
 export const getShop = async (dispatch) => {
   dispatch(getShopStart());
   try {
-    const res = await userRequest.get('/shop');
-    dispatch(getShopSuccess(res.data));
+    const res = await userRequestClient.request(getShopQuery);
+    dispatch(getShopSuccess(res));
   } catch (err) {
     console.log(err);
     dispatch(getShopFailure());
@@ -28,8 +30,8 @@ export const getShopCategories = async (dispatch, shop) => {
 
 export const isShopNameAvailable = async (shop) => {
   try {
-    const res = await userRequest.post('/shop/name', { name: shop.shopName });
-    return res.data;
+    const res = await userRequestClient.request(isShopNameAvailableMutation, { input: { name: shop.shopName } });
+    return res.isShopNameAvailable;
   } catch (err) {
     console.log(err);
   }

@@ -10,6 +10,7 @@ import login from '../controllers/login';
 import signup from '../controllers/signup';
 import { getOrders } from '../controllers/order';
 import { user, updateCurrency } from '../controllers/user';
+import { getShop, isShopNameAvailable } from '../controllers/shop';
 
 // The GraphQL schema
 export const publicTypeDefs = gql`
@@ -75,6 +76,9 @@ export const typeDefs = gql`
   }
   input UpdateCurrencyInput {
     currency: String!
+  }
+  input ShopAvailabilityInput {
+    name: String!
   }
   type FavoriteProduct {
     _id: ID
@@ -142,15 +146,36 @@ export const typeDefs = gql`
     order: Order
     orderDetails: [OrderDetails]
   }
+  type ShopAvailability {
+    available: Boolean
+  }
+  type Shop {
+    _id: ID
+    name: String
+    description: String
+    avatarUrl: String
+    userId: String
+    address: String
+    createdAt: String
+    updatedAt: String
+  }
+  type ShopInfo {
+    user: User
+    shop: Shop
+    inventory: [Product]
+    totalSales: Int
+  }
   type Query {
     user: User
     orders: [OrderInfo]
     userFavorites: [Product]
+    getShop: ShopInfo
   }
   type Mutation {
     createFavoriteProduct(input: CreateFavoriteProductInput!): [FavoriteProduct]
     deleteFavoriteProduct(input: DeleteFavoriteProductInput!): [FavoriteProduct]
     updateUserCurrency(input: UpdateCurrencyInput!): User
+    isShopNameAvailable(input: ShopAvailabilityInput!): ShopAvailability
   }
 `;
 
@@ -176,6 +201,7 @@ export const resolvers = {
     userFavorites: async (parent, _, context) => getUserFavorites(context),
     orders: async (parent, _, context) => getOrders(context),
     user: async (parent, _, context) => user(context),
+    getShop: async (parent, _, context) => getShop(context),
   },
   Mutation: {
     createFavoriteProduct: async (parent, input, context) => {
@@ -186,6 +212,9 @@ export const resolvers = {
     },
     updateUserCurrency: async (parent, input, context) => {
       return updateCurrency(context, input);
+    },
+    isShopNameAvailable: async (parent, input, context) => {
+      return isShopNameAvailable(context, input);
     },
   },
 };

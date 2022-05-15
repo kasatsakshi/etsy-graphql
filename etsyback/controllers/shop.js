@@ -82,20 +82,21 @@ export async function createShop(req, res) {
   });
 }
 
-export async function getShop(req, res) {
+export async function getShop(context) {
+  const { req } = context;
   const token = req.headers.authorization;
   const payload = await decodeToken(token);
   const id = payload.data.id;
 
   if (!id) {
-    return res.status(400).json({ message: 'user id is missing' });
+    throw new Error('user id is missing');
   }
 
   const user = await findOneEntity(User, { _id: id });
   // Check if this user exists
   if (!user) {
     console.error('User does not exists!');
-    return res.status(400).json({ message: 'User does not exists' });
+    throw new Error('User does not exists');
   }
 
   const shop = await findOneEntity(Shop, { userId: id });
@@ -119,23 +120,22 @@ export async function getShop(req, res) {
   );
   response.totalSales = total;
 
-  return res.status(200).json(response);
+  return response;
 }
 
-export async function isShopNameAvailable(req, res) {
-  const { name } = req.body;
-
+export async function isShopNameAvailable(_, args) {
+  const { name } = args.input;
   if (!name) {
-    return res.status(400).json({ message: 'shop name is missing' });
+    throw new Error('shop name is missing');
   }
 
   const findShop = await findOneEntity(Shop, { name });
 
   if (findShop) {
-    return res.status(200).json({ message: false });
+    return { available: false };
   }
 
-  return res.status(200).json({ message: true });
+  return { available: true };
 }
 
 export async function getShopCategories(req, res) {

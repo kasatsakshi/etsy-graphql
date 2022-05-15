@@ -6,7 +6,7 @@ import UserFavorites from '../models/userFavorites';
 import Inventory from '../models/inventory';
 import OrderDetails from '../models/orderDetails';
 
-export async function getProducts(req, res) {
+export async function getProducts() {
   const products = await findEntity(Inventory);
   let total = 0;
   await Promise.all(

@@ -105,6 +105,55 @@ query Query($input: ProductNameInput!) {
   }
 `;
 
+const getShopQuery = gql`
+query Query {
+  getShop {
+      user {
+        _id
+        name
+        email
+        gender
+        phone
+        avatarUrl
+        birthday
+        bio
+        userStatus
+        lastLoginAt
+        lastLogoutAt
+        currency
+        userLevel
+        address
+        createdAt
+        updatedAt
+      }
+      shop {
+        _id
+        name
+        description
+        avatarUrl
+        userId
+        address
+        createdAt
+        updatedAt
+      }
+      inventory {
+        _id
+        name
+        description
+        pictureUrl
+        category
+        price
+        quantity
+        shopId
+        createdAt
+        updatedAt
+      }
+      totalSales
+    }
+  }
+`;
+
 export {
   getProductsQuery, getUserFavoritesQuery, searchProductsByNameQuery, ordersQuery, userQuery,
+  getShopQuery,
 };
