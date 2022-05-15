@@ -24,6 +24,7 @@ import {
 export const getProducts = async (dispatch, shop) => {
   try {
     const res = await publicRequestClient.request(getProductsQuery);
+    // const res = await publicRequest.get('/products');
     await dispatch(getProductsSuccess(res));
   } catch (err) {
     console.log(err);

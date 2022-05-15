@@ -5,6 +5,7 @@ import {
 } from '../controllers/products';
 
 import login from '../controllers/login';
+import { getOrders } from '../controllers/order';
 
 // The GraphQL schema
 export const typeDefs = gql`
@@ -43,9 +44,38 @@ export const typeDefs = gql`
     createdAt: String
     updatedAt: String
   }
+  type OrderDetails {
+    _id: ID
+    orderQuantity: Int
+    orderId: String
+    name: String
+    description: String
+    pictureUrl: String
+    category: String
+    price: Int
+    shopId: String
+    inventoryId: String
+    createdAt: String
+    updatedAt: String
+  }
+  type Order {
+    _id: ID
+    finalAmount: Int
+    status: String
+    orderId: String
+    orderedDate: String
+    userId: String
+    createdAt: String
+    updatedAt: String
+  }
+  type OrderInfo {
+    order: Order
+    orderDetails: [OrderDetails]
+  }
   type Query {
     users: [User]
     products: [Product]
+    orders: [OrderInfo]
     userFavorites: [Product]
   }
   type Mutation {
@@ -57,6 +87,7 @@ export const resolvers = {
   Query: {
     products: async () => getProducts(),
     userFavorites: async (parent, _, context) => getUserFavorites(context),
+    orders: async (parent, _, context) => getOrders(context),
   },
   Mutation: {
     login: async (parent, input) => {

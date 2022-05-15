@@ -8,7 +8,7 @@ const BASE_URL = 'http://localhost:8080/api/';
 const TOKEN = localStorage.getItem('token');
 
 export const publicRequest = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE,
 });
 
 export const userRequest = axios.create({
@@ -16,5 +16,5 @@ export const userRequest = axios.create({
   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
 });
 
-export const publicRequestClient = new GraphQLClient(BASE_URL, { headers: {} });
+export const publicRequestClient = new GraphQLClient(`${BASE}/graph`, { headers: {} });
 export const userRequestClient = new GraphQLClient(BASE_URL, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });

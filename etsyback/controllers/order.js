@@ -72,7 +72,8 @@ export async function createOrder(req, res) {
   return res.status(200).json(response);
 }
 
-export async function getOrders(req, res) {
+export async function getOrders(context) {
+  const { req } = context;
   const token = req.headers.authorization;
   const payload = await decodeToken(token);
   const userId = payload.data.id;
@@ -80,7 +81,7 @@ export async function getOrders(req, res) {
   // Check if this user  exists
   if (!findUser) {
     console.error('User does not exists!');
-    return res.status(400).json({ message: 'User does not exists' });
+    throw new Error('User does not exists');
   }
   const response = [];
   const orders = await findEntity(Order, { userId });
@@ -95,5 +96,5 @@ export async function getOrders(req, res) {
     }),
   );
 
-  return res.status(200).json(response);
+  return response;
 }

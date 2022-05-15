@@ -28,7 +28,7 @@ const cartSlice = createSlice({
     },
     getOrderSuccess: (state, action) => {
       state.isFetching = false;
-      state.purchases = action.payload;
+      state.purchases = action.payload.orders;
     },
   },
 });

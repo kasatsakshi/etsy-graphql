@@ -33,6 +33,5 @@ router.post('/product/favorite/delete', passport.authenticate('jwt', { session: 
 router.get('/product/search/:name', searchProductsByName);
 
 router.post('/order', passport.authenticate('jwt', { session: false }), createOrder);
-router.get('/orders', passport.authenticate('jwt', { session: false }), getOrders);
 
 export default router;

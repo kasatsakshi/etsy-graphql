@@ -8,6 +8,7 @@ import routes from './routes';
 import config from './config';
 import { typeDefs, resolvers } from './schema/schema';
 import passport from './helpers/passport';
+import { getProducts } from './controllers/products';
 
 const app = express();
 const corsOptions = { origin: '*', exposedHeaders: 'X-Auth-Token' };
@@ -21,7 +22,7 @@ app.get('/', (req, res) => {
   res.json({ message: 'Etsy backend server is running' });
 });
 
-app.use('/', passport.authenticate('jwt', { session: false }));
+app.use('/api', passport.authenticate('jwt', { session: false }));
 
 app.get('/public/uploads/*', (req, res) => {
   const filePath = req.path;
@@ -73,11 +74,27 @@ await server.start();
 server.applyMiddleware({
   app,
   path: '/api',
+});
 
+const graphServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: (req) => {
+    return req;
+  },
+});
+
+await graphServer.start();
+
+// Apply express middleware.
+graphServer.applyMiddleware({
+  app,
+  path: '/graph',
 });
 
 const httpServer = createServer(app);
 
 httpServer.listen({ port }, () => {
-  console.log(`🚀 Server ready at http:localhost:${port}`);
+  console.log(`🚀 Server ready at http:localhost:${port}/api`);
+  console.log(`🚀 Public Server ready at http:localhost:${port}/graph`);
 });

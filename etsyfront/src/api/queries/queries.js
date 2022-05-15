@@ -34,4 +34,35 @@ const getUserFavoritesQuery = gql`
   }
 `;
 
-export { getProductsQuery, getUserFavoritesQuery };
+const ordersQuery = gql`
+  {
+    orders {
+      order {
+        _id
+        finalAmount
+        status
+        orderId
+        orderedDate
+        userId
+        createdAt
+        updatedAt
+      }
+      orderDetails {
+        _id
+        orderQuantity
+        orderId
+        name
+        description
+        pictureUrl
+        category
+        price
+        shopId
+        inventoryId
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
+export { getProductsQuery, getUserFavoritesQuery, ordersQuery };
