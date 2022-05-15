@@ -4,9 +4,9 @@ import {
   accountInfoSuccess, accountInfoFailure, updateUserInfoSuccess,
   updateUserCurrencySuccess,
 } from './userRedux';
-import { loginMutation, updateCurrencyMutation } from '../api/mutations/mutation';
+import { loginMutation, signupMutation, updateCurrencyMutation } from '../api/mutations/mutation';
 import {
-  publicRequest, userRequest, publicRequestClient, userRequestClient,
+  userRequest, publicRequestClient, userRequestClient,
 } from '../api/http';
 import { userQuery } from '../api/queries/queries';
 
@@ -25,10 +25,10 @@ export const login = async (dispatch, user) => {
 export const signup = async (dispatch, user) => {
   dispatch(signupStart());
   try {
-    const res = await publicRequest.post('/signup', user);
-    const token = res.headers['x-auth-token'];
+    const res = await publicRequestClient.request(signupMutation, { input: user });
+    const token = res.signup.token;
     localStorage.setItem('token', token);
-    dispatch(signupSuccess(res.data));
+    dispatch(signupSuccess(res));
   } catch (err) {
     dispatch(signupFailure());
   }

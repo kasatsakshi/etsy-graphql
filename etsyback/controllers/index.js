@@ -1,5 +1,4 @@
 import express from 'express';
-import signup from './signup';
 import upload from './upload';
 import { update } from './user';
 import {
@@ -11,7 +10,6 @@ import passport from '../helpers/passport';
 
 const router = new express.Router();
 
-router.post('/signup', signup);
 router.put('/user/update', passport.authenticate('jwt', { session: false }), update);
 router.post('/upload', passport.authenticate('jwt', { session: false }), upload);
 router.get('/shop', passport.authenticate('jwt', { session: false }), getShop);

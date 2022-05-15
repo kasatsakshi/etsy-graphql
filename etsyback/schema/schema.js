@@ -7,12 +7,18 @@ import {
 } from '../controllers/products';
 
 import login from '../controllers/login';
+import signup from '../controllers/signup';
 import { getOrders } from '../controllers/order';
 import { user, updateCurrency } from '../controllers/user';
 
 // The GraphQL schema
 export const publicTypeDefs = gql`
   input LoginInput {
+    email: String!
+    password: String!
+  }
+  input SignupInput {
+    name: String!
     email: String!
     password: String!
   }
@@ -56,6 +62,7 @@ export const publicTypeDefs = gql`
   }
   type Mutation {
     login(input: LoginInput!): User
+    signup(input: SignupInput!): User
   }
 `;
 
@@ -157,6 +164,9 @@ export const publicResolvers = {
   Mutation: {
     login: async (parent, input) => {
       return login(input);
+    },
+    signup: async (parent, input) => {
+      return signup(input);
     },
   },
 };

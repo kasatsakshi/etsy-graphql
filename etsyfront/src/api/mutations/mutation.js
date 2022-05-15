@@ -24,6 +24,30 @@ mutation Mutation($input: LoginInput!) {
 }
 `;
 
+const signupMutation = gql`
+mutation Mutation($input: SignupInput!) {
+  signup(input: $input) {
+    _id
+    name
+    email
+    gender
+    phone
+    avatarUrl
+    birthday
+    bio
+    userStatus
+    lastLoginAt
+    lastLogoutAt
+    currency
+    userLevel
+    address
+    createdAt
+    updatedAt
+    token
+  }
+}
+`;
+
 const createFavoriteProductMutation = gql`
 mutation Mutation($input: CreateFavoriteProductInput!) {
   createFavoriteProduct(input: $input) {
@@ -72,6 +96,6 @@ mutation Mutation($input: UpdateCurrencyInput!) {
 `;
 
 export {
-  loginMutation, createFavoriteProductMutation,
+  loginMutation, signupMutation, createFavoriteProductMutation,
   deleteFavoriteProductMutation, updateCurrencyMutation,
 };
