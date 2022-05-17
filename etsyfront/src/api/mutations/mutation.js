@@ -230,8 +230,31 @@ mutation Mutation($input: CreateShopProductInput!) {
 }
 `;
 
+const userUpdateMutation = gql`
+mutation Mutation($input: UpdateUserInput!) {
+  updateUser(input: $input) {
+    _id
+    name
+    email
+    gender
+    phone
+    avatarUrl
+    birthday
+    bio
+    userStatus
+    lastLoginAt
+    lastLogoutAt
+    currency
+    userLevel
+    address
+    createdAt
+    updatedAt
+  }
+}
+`;
+
 export {
   loginMutation, signupMutation, createFavoriteProductMutation,
   deleteFavoriteProductMutation, updateCurrencyMutation, isShopNameAvailableMutation,
-  createOrderMutation, createShopMutation, createShopProductMutation,
+  createOrderMutation, createShopMutation, createShopProductMutation, userUpdateMutation,
 };

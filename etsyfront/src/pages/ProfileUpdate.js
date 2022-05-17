@@ -141,14 +141,14 @@ function ProfileUpdate() {
 
   const saveChanges = async (e) => {
     e.preventDefault();
-    const address = {
+    const address = JSON.stringify({
       address1,
       address2,
       city,
       state,
       country,
       zipcode,
-    };
+    });
     await updateUserInfo(dispatch, {
       name, email, gender, address, bio, birthday, avatarUrl, phone, userId: user.id,
     });

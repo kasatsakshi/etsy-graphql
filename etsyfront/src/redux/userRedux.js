@@ -43,7 +43,7 @@ const userSlice = createSlice({
     },
     updateUserInfoSuccess: (state, action) => {
       state.isFetching = false;
-      state.currentUser = action.payload;
+      state.currentUser = action.payload.updateUser;
     },
     updateUserCurrencySuccess: (state, action) => {
       state.isFetching = false;

@@ -9,7 +9,7 @@ import {
 import login from '../controllers/login';
 import signup from '../controllers/signup';
 import { createOrder, getOrders } from '../controllers/order';
-import { user, updateCurrency } from '../controllers/user';
+import { user, updateCurrency, update } from '../controllers/user';
 import {
   createShop, getShop, createShopProduct,
   getShopCategories, isShopNameAvailable,
@@ -117,6 +117,16 @@ export const typeDefs = gql`
     name: String!
     description: String
     phone: String
+    address: String
+  }
+  input UpdateUserInput {
+    name: String
+    email: String
+    gender: String
+    phone: String
+    avatarUrl: String
+    birthday: String
+    bio: String
     address: String
   }
   type FavoriteProduct {
@@ -230,6 +240,7 @@ export const typeDefs = gql`
     createOrder(input: CreateOrderInput!): [OrderInfo]
     createShop(input: CreateShopInput!): ShopInfo
     createShopProduct(input: CreateShopProductInput!): ShopInfo
+    updateUser(input: UpdateUserInput!): User
   }
 `;
 
@@ -279,6 +290,9 @@ export const resolvers = {
     },
     createShopProduct: async (parent, input, context) => {
       return createShopProduct(context, input);
+    },
+    updateUser: async (parent, input, context) => {
+      return update(context, input);
     },
   },
 };

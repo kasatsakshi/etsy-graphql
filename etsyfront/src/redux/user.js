@@ -4,7 +4,9 @@ import {
   accountInfoSuccess, accountInfoFailure, updateUserInfoSuccess,
   updateUserCurrencySuccess,
 } from './userRedux';
-import { loginMutation, signupMutation, updateCurrencyMutation } from '../api/mutations/mutation';
+import {
+  loginMutation, signupMutation, updateCurrencyMutation, userUpdateMutation,
+} from '../api/mutations/mutation';
 import {
   userRequest, publicRequestClient, userRequestClient,
 } from '../api/http';
@@ -48,20 +50,15 @@ export const accountInfo = async (dispatch, user) => {
 export const updateUserInfo = async (dispatch, data) => {
   try {
     const formData = new FormData();
-    formData.append('name', data.name);
-    formData.append('email', data.email);
-    formData.append('address', JSON.stringify(data.address));
-    formData.append('bio', data.bio);
-    formData.append('phone', data.phone);
-    formData.append('gender', data.gender);
-    formData.append('birthday', data.birthday);
+    let avatarUrl;
     if (data.avatarUrl.file) {
-      formData.append('avatarUrl', data.avatarUrl.file);
-    } else {
-      formData.append('avatarUrl', data.avatarUrl);
+      formData.append('myImage', data.avatarUrl.file);
+      avatarUrl = await userRequest.post('/upload', formData);
+      data.avatarUrl = avatarUrl.data;
     }
-    const res = await userRequest.put('/user/update', formData);
-    dispatch(updateUserInfoSuccess(res.data));
+
+    const res = await userRequestClient.request(userUpdateMutation, { input: data });
+    dispatch(updateUserInfoSuccess(res));
   } catch (err) {
     console.log(err);
   }
