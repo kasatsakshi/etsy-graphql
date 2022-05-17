@@ -51,7 +51,7 @@ export const updateUserInfo = async (dispatch, data) => {
   try {
     const formData = new FormData();
     let avatarUrl;
-    if (data.avatarUrl.file) {
+    if (data && data.avatarUrl && data.avatarUrl.file) {
       formData.append('myImage', data.avatarUrl.file);
       avatarUrl = await userRequest.post('/upload', formData);
       data.avatarUrl = avatarUrl.data;
