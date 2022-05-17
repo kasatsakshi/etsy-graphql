@@ -200,7 +200,7 @@ function ShopHome() {
                               : <img src={defaultShop} height="200" width="200" alt="owner avatar" />
                           }
                           <div style={{ paddingTop: 30 }}>
-                            <UploadImage type="shop" id={shopInfo.shop.id} />
+                            <UploadImage type="shop" id={shopInfo.shop._id} />
                           </div>
                         </Stack>
                       </Box>

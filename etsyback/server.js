@@ -20,7 +20,7 @@ const corsOptions = { origin: '*', exposedHeaders: 'X-Auth-Token' };
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public/uploads'));
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
   res.json({ message: 'Etsy backend server is running' });
@@ -30,21 +30,7 @@ app.post('/api/upload', passport.authenticate('jwt', { session: false }), upload
 
 app.use('/api', passport.authenticate('jwt', { session: false }));
 
-app.get('/public/uploads/*', (req, res) => {
-  const filePath = req.path;
-  const fileName = req.params[0];
-  const __dirname = path.dirname(fileName);
-  res.sendFile(filePath, { root: __dirname });
-});
-
-app.get('/public/shop/*', (req, res) => {
-  const filePath = req.path;
-  const fileName = req.params[0];
-  const __dirname = path.dirname(fileName);
-  res.sendFile(filePath, { root: __dirname });
-});
-
-app.get('/public/products/*', (req, res) => {
+app.get('/public/*', (req, res) => {
   const filePath = req.path;
   const fileName = req.params[0];
   const __dirname = path.dirname(fileName);

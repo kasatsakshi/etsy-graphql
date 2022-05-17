@@ -1,6 +1,8 @@
 import path from 'path';
 import multer from 'multer';
 import fs from 'fs';
+import { updateOneEntity } from '../models';
+import Shop from '../models/shop';
 
 const storage = multer.diskStorage({
   destination(req, file, callback) {
@@ -25,6 +27,13 @@ export default async function upload(req, res) {
     if (err) {
       console.log(err);
       return res.status(400).json('Error in uploading file');
+    }
+
+    console.log(req.body);
+
+    if (req.body.type === 'shop') {
+      console.log(req.body.id);
+      await updateOneEntity(Shop, { _id: req.body.id }, { avatarUrl: req.file.path });
     }
 
     console.log('Image Uploaded Successfully!');

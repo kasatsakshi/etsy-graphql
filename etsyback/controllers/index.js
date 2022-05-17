@@ -9,7 +9,6 @@ import passport from '../helpers/passport';
 
 const router = new express.Router();
 
-router.post('/upload', passport.authenticate('jwt', { session: false }), upload);
 router.post('/shop/product/update', passport.authenticate('jwt', { session: false }), updateShopProduct);
 
 export default router;
