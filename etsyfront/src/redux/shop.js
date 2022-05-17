@@ -4,7 +4,7 @@ import {
   getShopCategoryFailure, shopProductCreateSuccess,
 } from './shopRedux';
 import { userRequest, userRequestClient } from '../api/http';
-import { isShopNameAvailableMutation } from '../api/mutations/mutation';
+import { isShopNameAvailableMutation, createShopMutation } from '../api/mutations/mutation';
 import { getShopQuery, getShopCateogoriesQuery } from '../api/queries/queries';
 
 export const getShop = async (dispatch) => {
@@ -37,17 +37,15 @@ export const isShopNameAvailable = async (shop) => {
   }
 };
 
-export const shopCreate = async (dispatch, data) => {
+export const shopCreate = async (dispatch, shopData) => {
   const formData = new FormData();
-  formData.append('name', data.name);
-  formData.append('description', data.description);
-  formData.append('phone', data.phone);
-  formData.append('avatarUrl', data.avatarUrl.file);
-  formData.append('address', JSON.stringify(data.address));
+  formData.append('myImage', shopData.avatarUrl.file);
 
   try {
-    const res = await userRequest.post('/shop/create', formData);
-    dispatch(shopCreateSuccess(res.data));
+    const avatarUrl = await userRequest.post('/upload', formData);
+    shopData.avatarUrl = avatarUrl.data;
+    const res = await userRequestClient.request(createShopMutation, { input: shopData });
+    dispatch(shopCreateSuccess(res));
     return res.data;
   } catch (err) {
     console.log(err);

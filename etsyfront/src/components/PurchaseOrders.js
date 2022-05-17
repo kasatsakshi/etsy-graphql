@@ -129,7 +129,7 @@ function PurchaseOrders({ orderData, orderItemData }) {
           <CardContent>
             <p>
               purchase on:
-              {new Date(orderData.orderedDate).toLocaleDateString('en-US', options)}
+              {new Date(parseInt(orderData.orderedDate)).toLocaleDateString('en-US', options)}
             </p>
           </CardContent>
         </Stack>

@@ -13,4 +13,4 @@ export const userRequest = axios.create({
 });
 
 export const publicRequestClient = new GraphQLClient(`${BASE}/graph`, { headers: {} });
-export const userRequestClient = new GraphQLClient(BASE_URL, { headers: { Authorization: `Bearer ${TOKEN}` } });
+export const userRequestClient = new GraphQLClient(BASE_URL, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });

@@ -10,7 +10,10 @@ import login from '../controllers/login';
 import signup from '../controllers/signup';
 import { createOrder, getOrders } from '../controllers/order';
 import { user, updateCurrency } from '../controllers/user';
-import { getShop, getShopCategories, isShopNameAvailable } from '../controllers/shop';
+import {
+  createShop, getShop,
+  getShopCategories, isShopNameAvailable,
+} from '../controllers/shop';
 
 // The GraphQL schema
 export const publicTypeDefs = gql`
@@ -98,6 +101,13 @@ export const typeDefs = gql`
   }
   input CreateOrderInput {
     orderItems: [OrderItemsInput]
+  }
+  input CreateShopInput {
+    avatarUrl: String
+    name: String!
+    description: String
+    phone: String
+    address: String
   }
   type FavoriteProduct {
     _id: ID
@@ -208,6 +218,7 @@ export const typeDefs = gql`
     updateUserCurrency(input: UpdateCurrencyInput!): User
     isShopNameAvailable(input: ShopAvailabilityInput!): ShopAvailability
     createOrder(input: CreateOrderInput!): [OrderInfo]
+    createShop(input: CreateShopInput!): ShopInfo
   }
 `;
 
@@ -251,6 +262,9 @@ export const resolvers = {
     },
     createOrder: async (parent, input, context) => {
       return createOrder(context, input);
+    },
+    createShop: async (parent, input, context) => {
+      return createShop(context, input);
     },
   },
 };

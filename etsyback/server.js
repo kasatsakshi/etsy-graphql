@@ -11,6 +11,7 @@ import {
   resolvers,
   publicResolvers,
 } from './schema/schema';
+import upload from './controllers/upload';
 import passport from './helpers/passport';
 
 const app = express();
@@ -24,6 +25,8 @@ app.use(express.static('public/uploads'));
 app.get('/', (req, res) => {
   res.json({ message: 'Etsy backend server is running' });
 });
+
+app.post('/api/upload', passport.authenticate('jwt', { session: false }), upload);
 
 app.use('/api', passport.authenticate('jwt', { session: false }));
 

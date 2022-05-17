@@ -1,7 +1,7 @@
 import {
   addCartSuccess, addCartFailure, createOrderSuccess, createOrderFailure, getOrderSuccess,
 } from './cartRedux';
-import { userRequestClient, userRequest } from '../api/http';
+import { userRequestClient } from '../api/http';
 import { ordersQuery } from '../api/queries/queries';
 import { createOrderMutation } from '../api/mutations/mutation';
 

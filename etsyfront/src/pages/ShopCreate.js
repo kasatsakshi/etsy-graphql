@@ -63,14 +63,14 @@ function ShopCreate() {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const address = {
+    const address = JSON.stringify({
       address1,
       address2,
       city,
       state,
       country,
       zipcode,
-    };
+    });
     await shopCreate(dispatch, {
       name, description, phone, avatarUrl, address,
     });

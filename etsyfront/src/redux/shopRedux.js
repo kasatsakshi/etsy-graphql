@@ -22,7 +22,7 @@ const shopSlice = createSlice({
     },
     shopCreateSuccess: (state, action) => {
       state.isFetching = false;
-      state.currentShop = action.payload;
+      state.currentShop = action.payload.createShop;
     },
     shopCreateFailure: (state) => {
       state.isFetching = false;
