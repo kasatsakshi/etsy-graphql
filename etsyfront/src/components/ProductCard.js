@@ -72,7 +72,7 @@ export default function ProductCard({ productData }) {
 
   const [name, setName] = useState(productData.name);
   const [description, setDesc] = useState(productData.description);
-  const [isCustom, setIsCustom] = useState('');
+  const [isCustom, setIsCustom] = useState(false);
   const [category, setCategory] = useState(productData.category);
   const [price, setPrice] = useState(productData.price);
   const [quantity, setQuantity] = useState(productData.quantity);

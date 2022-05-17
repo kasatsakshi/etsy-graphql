@@ -4,7 +4,9 @@ import {
   getShopCategoryFailure, shopProductCreateSuccess,
 } from './shopRedux';
 import { userRequest, userRequestClient } from '../api/http';
-import { isShopNameAvailableMutation, createShopMutation, createShopProductMutation } from '../api/mutations/mutation';
+import {
+  isShopNameAvailableMutation, createShopMutation, createShopProductMutation, updateShopProductMutation,
+} from '../api/mutations/mutation';
 import { getShopQuery, getShopCateogoriesQuery } from '../api/queries/queries';
 
 export const getShop = async (dispatch) => {
@@ -75,22 +77,16 @@ export const shopProductCreate = async (dispatch, shopProductData) => {
 };
 
 export const shopProductUpdate = async (dispatch, data) => {
-  const formData = new FormData();
-  formData.append('name', data.name);
-  formData.append('description', data.description);
-  formData.append('isCustom', data.isCustom);
-  formData.append('category', data.category);
-  formData.append('price', data.price);
-  formData.append('quantity', data.quantity);
-  formData.append('productId', data.productId);
   if (data.pictureUrl.file) {
-    formData.append('pictureUrl', data.pictureUrl.file);
-  } else {
-    formData.append('pictureUrl', data.pictureUrl);
+    const formData = new FormData();
+    formData.append('myImage', data.pictureUrl.file);
+    const pictureUrl = await userRequest.post('/upload', formData);
+    data.pictureUrl = pictureUrl.data;
   }
+
   try {
-    const res = await userRequest.post('/shop/product/update', formData);
-    dispatch(shopProductUpdateSuccess(res.data));
+    const res = await userRequestClient.request(updateShopProductMutation, { input: data });
+    dispatch(shopProductUpdateSuccess(res));
     return res.data;
   } catch (err) {
     console.log(err);

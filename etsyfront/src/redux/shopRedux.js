@@ -42,7 +42,7 @@ const shopSlice = createSlice({
     },
     shopProductUpdateSuccess: (state, action) => {
       state.isFetching = false;
-      state.currentShop = action.payload;
+      state.currentShop = action.payload.updateShopProduct;
     },
   },
 });

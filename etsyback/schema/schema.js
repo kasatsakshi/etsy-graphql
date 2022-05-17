@@ -12,7 +12,7 @@ import { createOrder, getOrders } from '../controllers/order';
 import { user, updateCurrency, update } from '../controllers/user';
 import {
   createShop, getShop, createShopProduct,
-  getShopCategories, isShopNameAvailable,
+  getShopCategories, isShopNameAvailable, updateShopProduct,
 } from '../controllers/shop';
 
 // The GraphQL schema
@@ -110,7 +110,17 @@ export const typeDefs = gql`
     isCustom: Boolean
     category: String
     price: String
-    quantity: String
+    quantity: Int
+  }
+  input UpdateShopProductInput {
+    pictureUrl: String
+    productId: String!
+    name: String!
+    description: String
+    isCustom: Boolean
+    category: String
+    price: String
+    quantity: Int
   }
   input CreateShopInput {
     avatarUrl: String
@@ -241,6 +251,7 @@ export const typeDefs = gql`
     createShop(input: CreateShopInput!): ShopInfo
     createShopProduct(input: CreateShopProductInput!): ShopInfo
     updateUser(input: UpdateUserInput!): User
+    updateShopProduct(input: UpdateShopProductInput!): ShopInfo
   }
 `;
 
@@ -293,6 +304,9 @@ export const resolvers = {
     },
     updateUser: async (parent, input, context) => {
       return update(context, input);
+    },
+    updateShopProduct: async (parent, input, context) => {
+      return updateShopProduct(context, input);
     },
   },
 };

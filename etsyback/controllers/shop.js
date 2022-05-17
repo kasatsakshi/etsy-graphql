@@ -193,83 +193,58 @@ export async function createShopProduct(context, args) {
   return response;
 }
 
-export async function updateShopProduct(req, res) {
-  const form = new formidable.IncomingForm();
-  form.multiples = true;
-  form.maxFileSize = 50 * 1024 * 1024; // 5MB
-  const pictureUrl = null;
+export async function updateShopProduct(context, args) {
+  const {
+    productId, name, description, isCustom, category, price, quantity, pictureUrl,
+  } = args.input;
 
-  form.parse(req, async (err, fields, files) => {
-    if (err) {
-      console.log(err);
-      return res.status(400).json({ message: 'Unable to parse Input' });
-    }
-    const {
-      productId, name, description, isCustom, category, price, quantity,
-    } = fields;
-    let { pictureUrl } = fields;
+  const findProduct = await findOneEntity(Inventory, { _id: productId });
+  if (!findProduct) {
+    throw new Error("Product doesn't exists");
+  }
 
-    if (files.pictureUrl) {
-      const tempFilePath = files.pictureUrl.filepath;
-      const fileName = `image-${Date.now()}${path.extname(files.pictureUrl.originalFilename)}`;
-      const uploadedFolder = './public/products/';
+  const shop = await findOneEntity(Shop, { _id: findProduct.shopId });
+  const user = await findOneEntity(User, { _id: shop.userId });
 
-      if (!fs.existsSync(uploadedFolder)) {
-        fs.mkdirSync(uploadedFolder, { recursive: true });
-      }
+  const productInput = {
+    name,
+    description,
+    pictureUrl,
+    price,
+    quantity,
+    shopId: shop._id,
+  };
 
-      fs.readFile(tempFilePath, (err, data) => {
-        fs.writeFile(uploadedFolder + fileName, data, (err) => {
-          fs.unlink(tempFilePath, (err) => {
-            if (err) {
-              console.error(err);
-            }
-          });
-        });
-      });
-      const [first, ...rest] = (uploadedFolder + fileName).split('/');
-      pictureUrl = rest.join('/');
-    }
+  if (isCustom) {
+    const newCategory = new Category({
+      name: category,
+      productId,
+    });
 
-    const findProduct = await findOneEntity(Inventory, { _id: productId });
-    if (!findProduct) {
-      return res.status(400).json({ message: "Product doesn't exists" });
-    }
+    const createdCategory = await createEntity(newCategory);
+    productInput.categoryId = createdCategory._id;
+    productInput.category = null;
+  } else {
+    productInput.category = category;
+  }
 
-    const shop = await findOneEntity(Shop, { _id: findProduct.shopId });
-    const user = await findOneEntity(User, { _id: shop.userId });
+  await updateOneEntity(Inventory, { _id: productId }, productInput);
+  const inventory = await findEntity(Inventory, { shopId: findProduct.shopId });
 
-    const productInput = {
-      name,
-      description,
-      pictureUrl,
-      price,
-      quantity,
-      shopId: shop._id,
-    };
+  const response = {
+    user,
+    shop,
+    inventory,
+  };
 
-    if (isCustom) {
-      const newCategory = new Category({
-        name: category,
-        productId,
-      });
+  let total = 0;
+  await Promise.all(
+    inventory.map(async (item) => {
+      const temp = await findEntity(OrderDetails, { inventoryId: item._id }, ['orderQuantity']);
+      total += temp.length;
+    }),
+  );
+  response.totalSales = total;
 
-      const createdCategory = await createEntity(newCategory);
-      productInput.categoryId = createdCategory._id;
-      productInput.category = null;
-    } else {
-      productInput.category = category;
-    }
-
-    await updateOneEntity(Inventory, { _id: productId }, productInput);
-    const inventory = await findEntity(Inventory, { shopId: findProduct.shopId });
-
-    const response = {
-      user,
-      shop,
-      inventory,
-    };
-
-    return res.status(200).json(response);
-  });
+  return response;
 }

@@ -29,10 +29,7 @@ export default async function upload(req, res) {
       return res.status(400).json('Error in uploading file');
     }
 
-    console.log(req.body);
-
     if (req.body.type === 'shop') {
-      console.log(req.body.id);
       await updateOneEntity(Shop, { _id: req.body.id }, { avatarUrl: req.file.path });
     }
 
