@@ -11,7 +11,7 @@ import signup from '../controllers/signup';
 import { createOrder, getOrders } from '../controllers/order';
 import { user, updateCurrency } from '../controllers/user';
 import {
-  createShop, getShop,
+  createShop, getShop, createShopProduct,
   getShopCategories, isShopNameAvailable,
 } from '../controllers/shop';
 
@@ -101,6 +101,16 @@ export const typeDefs = gql`
   }
   input CreateOrderInput {
     orderItems: [OrderItemsInput]
+  }
+  input CreateShopProductInput {
+    pictureUrl: String
+    shopId: String!
+    name: String!
+    description: String
+    isCustom: Boolean
+    category: String
+    price: String
+    quantity: String
   }
   input CreateShopInput {
     avatarUrl: String
@@ -219,6 +229,7 @@ export const typeDefs = gql`
     isShopNameAvailable(input: ShopAvailabilityInput!): ShopAvailability
     createOrder(input: CreateOrderInput!): [OrderInfo]
     createShop(input: CreateShopInput!): ShopInfo
+    createShopProduct(input: CreateShopProductInput!): ShopInfo
   }
 `;
 
@@ -265,6 +276,9 @@ export const resolvers = {
     },
     createShop: async (parent, input, context) => {
       return createShop(context, input);
+    },
+    createShopProduct: async (parent, input, context) => {
+      return createShopProduct(context, input);
     },
   },
 };

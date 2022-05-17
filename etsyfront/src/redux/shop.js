@@ -4,7 +4,7 @@ import {
   getShopCategoryFailure, shopProductCreateSuccess,
 } from './shopRedux';
 import { userRequest, userRequestClient } from '../api/http';
-import { isShopNameAvailableMutation, createShopMutation } from '../api/mutations/mutation';
+import { isShopNameAvailableMutation, createShopMutation, createShopProductMutation } from '../api/mutations/mutation';
 import { getShopQuery, getShopCateogoriesQuery } from '../api/queries/queries';
 
 export const getShop = async (dispatch) => {
@@ -42,7 +42,10 @@ export const shopCreate = async (dispatch, shopData) => {
   formData.append('myImage', shopData.avatarUrl.file);
 
   try {
-    const avatarUrl = await userRequest.post('/upload', formData);
+    let avatarUrl = { data: '' };
+    if (shopData.avatarUrl.file) {
+      avatarUrl = await userRequest.post('/upload', formData);
+    }
     shopData.avatarUrl = avatarUrl.data;
     const res = await userRequestClient.request(createShopMutation, { input: shopData });
     dispatch(shopCreateSuccess(res));
@@ -53,20 +56,18 @@ export const shopCreate = async (dispatch, shopData) => {
   }
 };
 
-export const shopProductCreate = async (dispatch, data) => {
+export const shopProductCreate = async (dispatch, shopProductData) => {
   const formData = new FormData();
-  formData.append('name', data.name);
-  formData.append('description', data.description);
-  formData.append('isCustom', data.isCustom);
-  formData.append('category', data.category);
-  formData.append('pictureUrl', data.pictureUrl.file);
-  formData.append('price', data.price);
-  formData.append('quantity', data.quantity);
-  formData.append('shopId', data.shopid);
+  formData.append('myImage', shopProductData.pictureUrl.file);
 
   try {
-    const res = await userRequest.post('/shop/product/create', formData);
-    dispatch(shopProductCreateSuccess(res.data));
+    let pictureUrl = { data: '' };
+    if (shopProductData.pictureUrl.file) {
+      pictureUrl = await userRequest.post('/upload', formData);
+    }
+    shopProductData.pictureUrl = pictureUrl.data;
+    const res = await userRequestClient.request(createShopProductMutation, { input: shopProductData });
+    dispatch(shopProductCreateSuccess(res));
     return res.data;
   } catch (err) {
     console.log(err);

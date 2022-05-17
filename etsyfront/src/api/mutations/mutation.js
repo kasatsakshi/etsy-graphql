@@ -182,8 +182,56 @@ mutation Mutation($input: CreateShopInput!) {
 }
 `;
 
+const createShopProductMutation = gql`
+mutation Mutation($input: CreateShopProductInput!) {
+  createShopProduct(input: $input) {
+    user {
+      _id
+      name
+      email
+      gender
+      phone
+      avatarUrl
+      birthday
+      bio
+      userStatus
+      lastLoginAt
+      lastLogoutAt
+      currency
+      userLevel
+      address
+      createdAt
+      updatedAt
+    }
+    shop {
+      _id
+      name
+      description
+      avatarUrl
+      userId
+      address
+      createdAt
+      updatedAt
+    }
+    inventory {
+      _id
+      name
+      description
+      pictureUrl
+      category
+      price
+      quantity
+      shopId
+      createdAt
+      updatedAt
+    }
+    totalSales
+  }
+}
+`;
+
 export {
   loginMutation, signupMutation, createFavoriteProductMutation,
   deleteFavoriteProductMutation, updateCurrencyMutation, isShopNameAvailableMutation,
-  createOrderMutation, createShopMutation,
+  createOrderMutation, createShopMutation, createShopProductMutation,
 };

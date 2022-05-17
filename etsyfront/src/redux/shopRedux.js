@@ -38,7 +38,7 @@ const shopSlice = createSlice({
     },
     shopProductCreateSuccess: (state, action) => {
       state.isFetching = false;
-      state.currentShop = action.payload;
+      state.currentShop = action.payload.createShopProduct;
     },
     shopProductUpdateSuccess: (state, action) => {
       state.isFetching = false;

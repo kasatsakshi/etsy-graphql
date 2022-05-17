@@ -107,7 +107,7 @@ function ShopHome() {
   const handleCloseNewProduct = () => setNewProductOpen(false);
   const [name, setName] = useState('');
   const [description, setDesc] = useState('');
-  const [isCustom, setIsCustom] = useState('');
+  const [isCustom, setIsCustom] = useState(false);
   const [category, setCategory] = useState('');
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -122,7 +122,7 @@ function ShopHome() {
   const handleClick = async (e) => {
     e.preventDefault();
     await shopProductCreate(dispatch, {
-      name, description, pictureUrl, isCustom, category, price, quantity, shopid: shopInfo.shop._id,
+      name, description, pictureUrl, isCustom, category, price, quantity, shopId: shopInfo.shop._id,
     });
     handleCloseNewProduct();
     window.location.reload();
