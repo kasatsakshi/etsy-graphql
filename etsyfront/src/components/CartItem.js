@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import defaultProduct from '../assets/defaultProduct.png';
-import { BASE } from '../api/http';
 
 const cardStyle = {
   margin: 4,
@@ -23,7 +22,7 @@ function CartItem({ productData }) {
   const favorites = useSelector((state) => state.products.favoriteProducts);
   const [quantityNeeded, setQuantityNeeded] = useState(productData.quantityNeeded);
   if (productData.pictureUrl) {
-    productImage = `${BASE}/${productData.pictureUrl}`;
+    productImage = `${productData.pictureUrl}`;
   } else {
     productImage = defaultProduct;
   }

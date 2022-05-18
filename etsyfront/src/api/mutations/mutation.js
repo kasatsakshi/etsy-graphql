@@ -302,7 +302,15 @@ mutation Mutation($input: UpdateShopProductInput!) {
 `;
 
 export {
-  loginMutation, signupMutation, createFavoriteProductMutation, updateShopProductMutation,
-  deleteFavoriteProductMutation, updateCurrencyMutation, isShopNameAvailableMutation,
-  createOrderMutation, createShopMutation, createShopProductMutation, userUpdateMutation,
+  loginMutation,
+  signupMutation,
+  createFavoriteProductMutation,
+  updateShopProductMutation,
+  deleteFavoriteProductMutation,
+  updateCurrencyMutation,
+  isShopNameAvailableMutation,
+  createOrderMutation,
+  createShopMutation,
+  createShopProductMutation,
+  userUpdateMutation,
 };

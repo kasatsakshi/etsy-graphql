@@ -6,7 +6,6 @@ import {
   Card, CardHeader, Stack, CardActions, CardMedia, CardContent, IconButton, Box, Modal, Button,
 } from '@mui/material';
 import defaultProduct from '../assets/defaultProduct.png';
-import { BASE } from '../api/http';
 
 const Info = styled.div`
     opacity: 0;
@@ -80,7 +79,7 @@ function PurchaseOrders({ orderData, orderItemData }) {
   let productImage;
   const favorites = useSelector((state) => state.products.favoriteProducts);
   if (orderItemData.pictureUrl) {
-    productImage = `${BASE}/${orderItemData.pictureUrl}`;
+    productImage = `${orderItemData.pictureUrl}`;
   } else {
     productImage = defaultProduct;
   }

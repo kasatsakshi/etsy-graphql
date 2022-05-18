@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { getShop, getShopCategories, shopProductCreate } from '../redux/shop';
-import { BASE } from '../api/http';
 import VisitShopProduct from '../components/VisitShopProduct';
 import defaultShop from '../assets/defaultShop.png';
 import defaultUser from '../assets/defaultUser.png';
@@ -175,12 +174,12 @@ function VisitShop() {
             <ContainerHeader>
               <Stack direction="row" spacing={2}>
                 {
-                shopInfo && shopInfo.shop.avatarUrl
-                  ? <img src={`${BASE}/${shopInfo.shop.avatarUrl}`} height="200" width="200" alt="owner avatar" />
-                  : <img src={defaultShop} height="200" width="200" alt="owner avatar" />
-              }
+                  shopInfo && shopInfo.shop.avatarUrl
+                    ? <img src={`${shopInfo.shop.avatarUrl}`} height="200" width="200" alt="owner avatar" />
+                    : <img src={defaultShop} height="200" width="200" alt="owner avatar" />
+                }
                 <Stack spacing={2}>
-                  <ListItem><h2>{ shopInfo.shop.name}</h2></ListItem>
+                  <ListItem><h2>{shopInfo.shop.name}</h2></ListItem>
                   <ListItem>
                     <p>
                       {shopInfo.totalSales}
@@ -194,10 +193,10 @@ function VisitShop() {
                 <Stack spacing={0}>
                   <ListItem><h4 style={{ align: 'center' }}>Shop Owner</h4></ListItem>
                   {
-                  shopInfo.user.avatarUrl
-                    ? <ListItem><img src={`${BASE}/${shopInfo.user.avatarUrl}`} height="100" width="100" alt="owner avatar" /></ListItem>
-                    : <ListItem><img src={defaultUser} height="100" width="100" alt="owner avatar" /></ListItem>
-                }
+                    shopInfo.user.avatarUrl
+                      ? <ListItem><img src={`${shopInfo.user.avatarUrl}`} height="100" width="100" alt="owner avatar" /></ListItem>
+                      : <ListItem><img src={defaultUser} height="100" width="100" alt="owner avatar" /></ListItem>
+                  }
                   <ListItem><p>{shopInfo.user.name}</p></ListItem>
                   <ListItem><Link onClick={(handleOpen)}>Contact</Link></ListItem>
                   <Modal

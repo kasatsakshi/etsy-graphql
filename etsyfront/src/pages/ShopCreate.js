@@ -89,9 +89,9 @@ function ShopCreate() {
                   <Stack>
                     <div className="update__picture">
                       {
-                      // user.avatarUrl ? <img className='image__avatar' src={BASE + "/" + user.avatarUrl} alt="userProfile"></img> :
+                        // user.avatarUrl ? <img className='image__avatar' src={BASE + "/" + user.avatarUrl} alt="userProfile"></img> :
                         <img src={defaultShop} height="200" width="200" alt="user avatar" />
-                    }
+                      }
                       <p className="update__labeltext">Must be a .jpg, .gif or .png file smaller than 5MB and at least 400px by 400px.</p>
                     </div>
                   </Stack>
