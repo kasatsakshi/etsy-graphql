@@ -1,4 +1,4 @@
-# Etsy Clone (FraphQL)
+# Etsy Clone (GraphQL)
 
 ### Create a Marketplace (like Etsy) using MERN Stack with GraphQL APIs
 
